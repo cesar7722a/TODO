@@ -5,18 +5,15 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 
 interface AppProps {
   title: string;
-  id:number;
   done:boolean;
 }
-
-let nextId= 4
 
 function App() {
 
   const [tasks, setTasks] = useState<AppProps[]>([
-    {id:1, title:"Integer urna interdum massa libero auctor", done:false},
-    {id:2, title:"Integer urna interdum massa libero auctor", done:false},
-    {id:3, title:"Integer urna interdum massa libero auctor", done:true},
+    {title:"Integer urna interdum massa libero auctor", done:false},
+    {title:"Integer urna interdum massa libero auctor", done:false},
+    {title:"Integer urna interdum massa libero auctor", done:true},
   ])
 
   const taskConcluídas = tasks.filter(t=> t.done!==false)
