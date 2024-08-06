@@ -21,6 +21,14 @@ function App() {
        draft.push({
           title:title, done:false
        })
+
+       draft.sort((a, b) => {
+        if (a.done === b.done) {
+          return 0;
+        }
+        return a.done? 1 : -1;
+      });
+      
     })
     setTitle("")
   }
@@ -39,6 +47,13 @@ function App() {
       const todo = draft.find(t=> t.title === titleTask);
 
       if(todo) todo.done=true;
+
+      draft.sort((a, b) => {
+        if (a.done === b.done) {
+          return 0;
+        }
+        return a.done? 1 : -1;
+      });
 
      })
   }
