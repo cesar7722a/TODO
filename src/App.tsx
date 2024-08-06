@@ -8,14 +8,9 @@ interface AppProps {
   title: string;
   done:boolean;
 }
-
 function App() {
 
-  const [tasks, updateTasks] = useImmer<AppProps[]>([
-    {title:"Integer urna interdum massa libero auctor", done:false},
-    {title:"Integer urna interdum massa libero auctor", done:false},
-    {title:"Integer urna interdum massa libero auctor", done:true},
-  ])
+  const [tasks, updateTasks] = useImmer<AppProps[]>([])
 
   const taskConcluídas = tasks.filter(t=> t.done!==false);
   const [title, setTitle] = useState<string>(``);
@@ -28,6 +23,24 @@ function App() {
        })
     })
     setTitle("")
+  }
+
+  function deletTask(titleTask:string){
+     updateTasks(draft=>{
+      const index = draft.findIndex(t=> t.title === titleTask);
+      draft.splice(index,1)
+     })
+  }
+
+  function taskDone(titleTask:string){
+
+     updateTasks(draft=>{
+
+      const todo = draft.find(t=> t.title === titleTask);
+
+      if(todo) todo.done=true;
+
+     })
   }
 
   return <div className="flex flex-col items-center pb-4">
@@ -81,7 +94,9 @@ function App() {
            {
            return (
             task.done? (
-              <li key={task.title} className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
+              <li key={task.title} 
+             
+              className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
               bg-[#F0EDF2] hover:bg-[#E5E2E9] cursor-pointer">
       
               <div>
@@ -91,20 +106,26 @@ function App() {
                 {task.title}
                 </p>
                 <div>
-                  <Trash2 className="size-5 text-[#6B6572] hover:text-[#C2464D]"/>
+                  <Trash2
+                  onClick={()=>deletTask(task.title)} 
+                  className="size-5 text-[#6B6572] hover:text-[#C2464D]"/>
                 </div>
               </li> 
             )
             :
             (
-              <li key={task.title} className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
+              <li key={task.title} 
+               onClick={()=> taskDone(task.title)}
+              className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
               bg-[#E0DCE4] hover:bg-[#E5E2E9] cursor-pointer">
      
              <div><Circle className="size-5 text-[#6F3CC3]"/></div>
                <p className="w-[636px] h-full text-[#262428]">
                {task.title}
                </p>
-               <div><Trash2 className="size-5 text-[#6B6572] hover:text-[#C2464D]"/></div>
+               <div><Trash2 
+               onClick={()=>deletTask(task.title)}
+               className="size-5 text-[#6B6572] hover:text-[#C2464D]"/></div>
              </li>
             )
            )
