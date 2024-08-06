@@ -1,6 +1,7 @@
 import { Circle, CirclePlus, ClipboardList, Trash2 } from "lucide-react"
 import { useState } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { useImmer } from "use-immer";
 
 
 interface AppProps {
@@ -10,15 +11,26 @@ interface AppProps {
 
 function App() {
 
-  const [tasks, setTasks] = useState<AppProps[]>([
+  const [tasks, updateTasks] = useImmer<AppProps[]>([
     {title:"Integer urna interdum massa libero auctor", done:false},
     {title:"Integer urna interdum massa libero auctor", done:false},
     {title:"Integer urna interdum massa libero auctor", done:true},
   ])
 
-  const taskConcluídas = tasks.filter(t=> t.done!==false)
+  const taskConcluídas = tasks.filter(t=> t.done!==false);
+  const [title, setTitle] = useState<string>(``);
 
-  return <div className="flex flex-col items-center">
+
+  function addTask(){
+    updateTasks(draft=> {
+       draft.push({
+          title:title, done:false
+       })
+    })
+    setTitle("")
+  }
+
+  return <div className="flex flex-col items-center pb-4">
    <div className="h-44 w-full bg-[#E0DCE4] text-5xl flex justify-center items-center">
       <h1 className="text-[#9359F3] font-bold">
         <span className="text-[#479C6E]">to</span>
@@ -26,13 +38,16 @@ function App() {
       </h1>
    </div>
    <div className="flex justify-center items-center mt-[-32px] w-[736px] h-14 gap-2">
-    <input 
+    <input
+    value={title} 
     type="text"
     placeholder="Adicionar uma nova tarefa"
     className="border w-[618px] rounded-lg px-4 py-2
     bg-[#F0EDF2] outline-none focus:border-[#9359F3] border-[#E0DCE4]"
+    onChange={(e)=> setTitle(e.target.value)}
     />
     <button 
+    onClick={addTask}
     className="hover:bg-[#9359F3] bg-[#6F3CC3] font-bold px-6 py-2.5 rounded-lg flex gap-2 text-[#F0EDF2]">
       <span>Criar</span>
       <CirclePlus />
