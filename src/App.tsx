@@ -97,7 +97,6 @@ function App() {
       </span>
     </div>
     <div className="h-px bg-[#E0DCE4]"/>
-    <div>
       
      {
       tasks.length !== 0? (
@@ -162,8 +161,6 @@ function App() {
     </div>
 
    </div>
-
-  </div>
 }
 
 export default App
