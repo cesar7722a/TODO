@@ -1,7 +1,7 @@
-import { Circle, CirclePlus, ClipboardList, Trash2 } from "lucide-react"
+import { CirclePlus } from "lucide-react"
 import { useState } from "react";
-import { IoIosCheckmarkCircle } from "react-icons/io";
 import { useImmer } from "use-immer";
+import { RenderTask } from "./renderTask";
 
 
 interface AppProps {
@@ -17,6 +17,9 @@ function App() {
 
 
   function addTask(){
+   
+    if(title.length === 0) return
+
     updateTasks(draft=> {
        draft.push({
           title:title, done:false
@@ -96,71 +99,9 @@ function App() {
         </span>
       </span>
     </div>
-    <div className="h-px bg-[#E0DCE4]"/>
-      
-     {
-      tasks.length !== 0? (
-
-        <ul className="flex flex-col gap-4">
-
-        {
-          tasks.map(task=> {
-           {
-           return (
-            task.done? (
-              <li key={task.title} 
-             
-              className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
-              bg-[#F0EDF2] hover:bg-[#E5E2E9] cursor-pointer">
-      
-              <div>
-              <IoIosCheckmarkCircle className="size-5 text-[#479C6E]"/>
-              </div>
-                <p className="w-[636px] h-full text-[#6B6572] line-through">
-                {task.title}
-                </p>
-                <div>
-                  <Trash2
-                  onClick={()=>deletTask(task.title)} 
-                  className="size-5 text-[#6B6572] hover:text-[#C2464D]"/>
-                </div>
-              </li> 
-            )
-            :
-            (
-              <li key={task.title} 
-               onClick={()=> taskDone(task.title)}
-              className="rounded-lg flex gap-3 p-4 items-center border border-[#DDD2EF]
-              bg-[#E0DCE4] hover:bg-[#E5E2E9] cursor-pointer">
-     
-             <div><Circle className="size-5 text-[#6F3CC3]"/></div>
-               <p className="w-[636px] h-full text-[#262428]">
-               {task.title}
-               </p>
-               <div><Trash2 
-               onClick={()=>deletTask(task.title)}
-               className="size-5 text-[#6B6572] hover:text-[#C2464D]"/></div>
-             </li>
-            )
-           )
-           }
-          })
-        }
-      </ul>
-      )
-      :
-      (
-        <div>
-        <ClipboardList className="w-9 h-11 text-[#DDD2EF] mx-auto" />
-        <p className="text-[#6B6572] font-semibold text-center">Você ainda não tem tarefas cadastradas</p>
-        <p className="text-[#6B6572] text-center">Crie tarefas e organize seus itens a fazer</p>
-       </div>
-      )
-     }
-
-    </div>
-
+    <div className="h-px bg-[#E0DCE4]"/> 
+    <RenderTask deletTask={deletTask} taskDone={taskDone} tasks={tasks}/>
+   </div>
    </div>
 }
-
 export default App
