@@ -1,7 +1,9 @@
-import { Circle, ClipboardList, Trash2 } from "lucide-react";
+import { Circle } from "lucide-react";
 import { ComponentProps } from "react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AppProps } from "./components/type";
+import { ContainerTodoNaoAdd } from "./components/ConteinerTodoNaoAdd";
+import { ButtonDelet } from "./components/ButtonDelet";
 
 interface RenderTaskProps extends ComponentProps<`div`> {
   deletTask: (task: string) => void;
@@ -28,12 +30,7 @@ export function RenderTask({ deletTask, taskDone, tasks }: RenderTaskProps) {
                   <p className="w-[636px] h-full text-[#6B6572] line-through">
                     {task.title}
                   </p>
-                  <div>
-                    <Trash2
-                      onClick={() => deletTask(task.title)}
-                      className="size-5 text-[#6B6572] hover:text-[#C2464D]"
-                    />
-                  </div>
+                  <ButtonDelet deletTask={deletTask} title={task.title} />
                 </li>
               ) : (
                 <li
@@ -48,27 +45,14 @@ export function RenderTask({ deletTask, taskDone, tasks }: RenderTaskProps) {
                   <p className="w-[636px] h-full text-[#262428]">
                     {task.title}
                   </p>
-                  <div>
-                    <Trash2
-                      onClick={() => deletTask(task.title)}
-                      className="size-5 text-[#6B6572] hover:text-[#C2464D]"
-                    />
-                  </div>
+                  <ButtonDelet deletTask={deletTask} title={task.title} />
                 </li>
               );
             }
           })}
         </ul>
       ) : (
-        <div>
-          <ClipboardList className="w-9 h-11 text-[#DDD2EF] mx-auto" />
-          <p className="text-[#6B6572] font-semibold text-center">
-            Você ainda não tem tarefas cadastradas
-          </p>
-          <p className="text-[#6B6572] text-center">
-            Crie tarefas e organize seus itens a fazer
-          </p>
-        </div>
+        <ContainerTodoNaoAdd />
       )}
     </div>
   );
